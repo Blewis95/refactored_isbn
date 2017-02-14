@@ -14,4 +14,7 @@ post '/isbn_validate' do
 	answer = valid_isbn?(num)
 
 	"Answer is : #{answer}."
+
+	button_to(name = button, options = redirect '/')public
 end
+
