@@ -1,5 +1,6 @@
 require 'sinatra'
 require_relative 'isbn.rb'
+enable :sessions
 
 get '/' do
 	erb :isbn
@@ -7,14 +8,23 @@ end
 
 post '/isbn_validate' do 
 
-	num = params[:isbn_input]
+	session[:num] = params[:isbn_input]
 
-	# "I got #{params["isbn_input"]}."
-
-	answer = valid_isbn?(num)
-
-	"Answer is : #{answer}."
-
-	button_to(name = button, options = redirect '/')public
+	erb :isbn_num
 end
 
+post '/ask_name' do
+	session[:name] = params[:name_input]
+
+	erb :age
+end
+
+post '/ask_age' do
+	session[:age] = params[:age_input]
+
+	answer = valid_isbn?(session[:num])
+
+	erb :display, :locals => {:name => session[:name], :age => session[:age], :num => session[:num], :answer => answer}
+
+
+end
